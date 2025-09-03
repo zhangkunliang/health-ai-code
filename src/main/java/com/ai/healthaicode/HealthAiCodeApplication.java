@@ -9,10 +9,10 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 @SpringBootApplication(exclude = {RedisEmbeddingStoreAutoConfiguration.class})
 @MapperScan("com.ai.healthaicode.mapper")
-public class YuAiCodeMotherApplication {
+public class HealthAiCodeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(YuAiCodeMotherApplication.class, args);
+        SpringApplication.run(HealthAiCodeApplication.class, args);
     }
 
 }

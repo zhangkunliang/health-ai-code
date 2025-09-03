@@ -9,7 +9,7 @@ spring:
   # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/health-ai-code
+    url: jdbc:mysql://localhost:3306/zkl_ai_code
     username: root
     password: 980830
   # redis
