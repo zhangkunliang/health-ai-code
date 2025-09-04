@@ -20,5 +20,6 @@ public class AppUpdateRequest implements Serializable {
      */
     private String appName;
 
+
     private static final long serialVersionUID = 1L;
 } 

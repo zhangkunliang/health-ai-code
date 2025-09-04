@@ -9,10 +9,7 @@ import com.ai.healthaicode.constant.UserConstant;
 import com.ai.healthaicode.exception.BusinessException;
 import com.ai.healthaicode.exception.ErrorCode;
 import com.ai.healthaicode.exception.ThrowUtils;
-import com.ai.healthaicode.model.dto.user.UserAddRequest;
-import com.ai.healthaicode.model.dto.user.UserQueryRequest;
-import com.ai.healthaicode.model.dto.user.UserRegisterRequest;
-import com.ai.healthaicode.model.dto.user.UserUpdateRequest;
+import com.ai.healthaicode.model.dto.user.*;
 import com.ai.healthaicode.model.entity.User;
 import com.ai.healthaicode.model.vo.LoginUserVO;
 import com.ai.healthaicode.model.vo.UserVO;
@@ -215,6 +212,14 @@ public class UserController {
         List<UserVO> userVOList = userService.getUserVOList(userPage.getRecords());
         userVOPage.setRecords(userVOList);
         return ResultUtils.success(userVOPage);
+    }
+    @PostMapping("/login")
+    public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(userLoginRequest == null, ErrorCode.PARAMS_ERROR);
+        String userAccount = userLoginRequest.getUserAccount();
+        String userPassword = userLoginRequest.getUserPassword();
+        LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
+        return ResultUtils.success(loginUserVO);
     }
 
 
