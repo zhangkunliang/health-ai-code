@@ -81,7 +81,7 @@ const originItems = [
     key: '/admin/appManage',
     label: '应用管理',
     title: '应用管理',
-  }
+  },
 ]
 
 // 过滤菜单项
