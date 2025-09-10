@@ -2,7 +2,9 @@ package com.ai.healthaicode.ai;
 
 import com.ai.healthaicode.ai.model.HtmlCodeResult;
 import com.ai.healthaicode.ai.model.MultiFileCodeResult;
+import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.UserMessage;
 import reactor.core.publisher.Flux;
 
 public interface AiCodeGeneratorService {
@@ -51,4 +53,12 @@ public interface AiCodeGeneratorService {
     @SystemMessage(fromResource = "prompt/codegen-multi-file-system-prompt.txt")
     Flux<String> generateMultiFileCodeStream(String userMessage);
 
+    /**
+     * 获取指定 ID 的记忆
+     *
+     * @param memoryId 记忆 ID
+     * @param userMessage 用户消息
+     * @return 生成的代码结果
+     */
+    HtmlCodeResult generateHtmlCode(@MemoryId int memoryId, @UserMessage String userMessage);
 }

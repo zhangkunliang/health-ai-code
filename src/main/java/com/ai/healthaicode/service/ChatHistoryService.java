@@ -6,6 +6,7 @@ import com.ai.healthaicode.model.entity.User;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.service.IService;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -84,4 +85,5 @@ public interface ChatHistoryService extends IService<ChatHistory> {
                                                LocalDateTime lastCreateTime,
                                                User loginUser);
 
+    int loadChatHistoryToMemory(Long appId, MessageWindowChatMemory chatMemory, int maxCount);
 }
