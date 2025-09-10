@@ -1,6 +1,9 @@
 package com.ai.healthaicode.common;
 
 import com.ai.healthaicode.exception.ErrorCode;
+import com.ai.healthaicode.model.entity.ChatHistory;
+
+import java.util.List;
 
 /**
  * 快速构造响应结果的工具类
@@ -35,7 +38,7 @@ public class ResultUtils {
      * @param message 错误信息
      * @return 响应
      */
-    public static BaseResponse<?> error(int code, String message) {
+    public static BaseResponse<List<ChatHistory>> error(int code, String message) {
         return new BaseResponse<>(code, null, message);
     }
 

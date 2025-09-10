@@ -4,12 +4,19 @@ import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;
 
 /**
- * 对话历史消息枚举类型
+ * 对话历史消息类型枚举
  */
 @Getter
 public enum ChatHistoryMessageTypeEnum {
 
+    /**
+     * 用户消息
+     */
     USER("用户", "user"),
+    
+    /**
+     * AI消息
+     */
     AI("AI", "ai");
 
     private final String text;

@@ -10,6 +10,7 @@ import com.ai.healthaicode.model.vo.AppVO;
 import jakarta.servlet.http.HttpServletRequest;
 import reactor.core.publisher.Flux;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -54,4 +55,14 @@ public interface AppService extends IService<App> {
     QueryWrapper getQueryWrapper(AppQueryRequest appQueryRequest);
 
     String deployApp(Long appId, User loginUser);
+
+    /**
+     * 删除应用及其关联的聊天历史记录
+     *
+     * @param appId 应用ID
+     * @return 删除结果
+     */
+    boolean removeAppWithChatHistory(Long appId);
+
+    boolean removeById(Serializable id);
 }
