@@ -36,4 +36,7 @@ class AiCodeGeneratorFacadeTest {
         Assertions.assertNotNull(completeContent);
     }
 
+    @Test
+    void generateAndSaveCodeStream() {
+    }
 }
