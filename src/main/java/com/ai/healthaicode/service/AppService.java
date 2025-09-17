@@ -56,6 +56,8 @@ public interface AppService extends IService<App> {
 
     String deployApp(Long appId, User loginUser);
 
+    void generateAppScreenshotAsync(Long appId, String appUrl);
+
     /**
      * 删除应用及其关联的聊天历史记录
      *
