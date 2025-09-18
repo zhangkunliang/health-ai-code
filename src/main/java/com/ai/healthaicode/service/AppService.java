@@ -67,4 +67,6 @@ public interface AppService extends IService<App> {
     boolean removeAppWithChatHistory(Long appId);
 
     boolean removeById(Serializable id);
+
+    Long createApp(AppAddRequest appAddRequest, User loginUser);
 }

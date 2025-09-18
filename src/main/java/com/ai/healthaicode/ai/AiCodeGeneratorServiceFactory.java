@@ -1,6 +1,6 @@
 package com.ai.healthaicode.ai;
 
-import com.ai.healthaicode.ai.tools.FileWriteTool;
+import com.ai.healthaicode.ai.tools.*;
 import com.ai.healthaicode.exception.BusinessException;
 import com.ai.healthaicode.exception.ErrorCode;
 import com.ai.healthaicode.model.enums.CodeGenTypeEnum;
@@ -109,6 +109,7 @@ public class AiCodeGeneratorServiceFactory {
 
     /**
      * 根据appId获取服务（带缓存）该方法为了兼容历史逻辑
+     *
      * @param appId
      * @return
      */
@@ -158,7 +159,7 @@ public class AiCodeGeneratorServiceFactory {
             case VUE_PROJECT -> AiServices.builder(AiCodeGeneratorService.class)
                     .streamingChatModel(reasoningStreamingChatModel)
                     .chatMemoryProvider(memoryId -> chatMemory)
-                    .tools(new FileWriteTool())
+                    .tools(new FileWriteTool(), new FileReadTool(), new FileModifyTool(), new FileDeleteTool(), new FileDirReadTool())
                     .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                             toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                     ))
