@@ -23,31 +23,6 @@ import java.time.Duration;
 @Slf4j
 @Configuration
 public class AiCodeGeneratorServiceFactory {
-
-//    @Resource
-//    private ChatModel chatModel;
-//    @Resource
-//    private StreamingChatModel streamingChatModel;
-//    @Resource
-//    private  RedisChatMemoryStore redisChatMemoryStore;
-
-
-//    @Bean
-//    public AiCodeGeneratorService aiCodeGeneratorService() {
-//        return AiServices.builder(AiCodeGeneratorService.class)
-//                .chatModel(chatModel)
-//                .streamingChatModel(streamingChatModel)
-//                // 根据id构建独立的对话记忆
-//                .chatMemoryProvider(memoryId -> MessageWindowChatMemory
-//                        .builder()
-//                        .id(memoryId)
-//                        .chatMemoryStore(redisChatMemoryStore)
-//                        .maxMessages(20)
-//                        .build())
-//                .build();
-//    }
-
-
     @Resource
     private ChatModel chatModel;
 
@@ -64,25 +39,8 @@ public class AiCodeGeneratorServiceFactory {
     @Resource
     private ChatHistoryService chatHistoryService;
 
-//    /**
-//     * 根据 appId 获取服务
-//     */
-//    public AiCodeGeneratorService getAiCodeGeneratorService(long appId) {
-//        // 根据 appId 构建独立的对话记忆
-//        MessageWindowChatMemory chatMemory = MessageWindowChatMemory
-//                .builder()
-
-//                .id(appId)
-//                .chatMemoryStore(redisChatMemoryStore)
-//                .maxMessages(20)
-//                .build();
-//        return AiServices.builder(AiCodeGeneratorService.class)
-//                .chatModel(chatModel)
-//                .streamingChatModel(streamingChatModel)
-//                .chatMemory(chatMemory)
-//                .build();
-//    }
-
+    @Resource
+    private ToolManager toolManager;
     /**
      * 默认提供一个 Bean
      */
@@ -159,7 +117,7 @@ public class AiCodeGeneratorServiceFactory {
             case VUE_PROJECT -> AiServices.builder(AiCodeGeneratorService.class)
                     .streamingChatModel(reasoningStreamingChatModel)
                     .chatMemoryProvider(memoryId -> chatMemory)
-                    .tools(new FileWriteTool(), new FileReadTool(), new FileModifyTool(), new FileDeleteTool(), new FileDirReadTool())
+                    .tools(toolManager.getAllTools())
                     .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                             toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                     ))
