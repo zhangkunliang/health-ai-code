@@ -11,6 +11,8 @@ import com.ai.healthaicode.exception.ThrowUtils;
 import com.ai.healthaicode.model.entity.App;
 import com.ai.healthaicode.model.entity.User;
 import com.ai.healthaicode.model.enums.CodeGenTypeEnum;
+import com.ai.healthaicode.ratelimter.annotation.RateLimit;
+import com.ai.healthaicode.ratelimter.enums.RateLimitType;
 import com.ai.healthaicode.service.ProjectDownloadService;
 import com.ai.healthaicode.service.UserService;
 import com.mybatisflex.core.paginate.Page;
@@ -41,6 +43,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+
 import com.ai.healthaicode.constant.AppConstant;
 import com.ai.healthaicode.exception.BusinessException;
 import com.ai.healthaicode.exception.ErrorCode;
@@ -57,6 +60,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.File;
+
 /**
  * 应用 控制层。
  *
@@ -73,6 +77,7 @@ public class AppController {
     private UserService userService;
 
     @GetMapping(value = "/chat/gen/code", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @RateLimit(limitType = RateLimitType.USER, rate = 5, rateInterval = 60, message = "AI 对话请求过于频繁，请稍后再试")
     public Flux<ServerSentEvent<String>> chatToGenCode(@RequestParam Long appId,
                                                        @RequestParam String message,
                                                        HttpServletRequest request) {
@@ -176,7 +181,7 @@ public class AppController {
     /**
      * 根据 id 获取应用详情
      *
-     * @param id      应用 id
+     * @param id 应用 id
      * @param id 应用 id
      * @return 应用详情
      */
@@ -351,6 +356,7 @@ public class AppController {
 
     @Resource
     private ProjectDownloadService projectDownloadService;
+
     /**
      * 下载应用代码
      *
@@ -385,7 +391,6 @@ public class AppController {
         // 7. 调用通用下载服务
         projectDownloadService.downloadProjectAsZip(sourceDirPath, downloadFileName, response);
     }
-
 
 
 }

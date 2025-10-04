@@ -1,5 +1,6 @@
 package com.ai.healthaicode.ai;
 
+import com.ai.healthaicode.ai.guardrail.PromptSafetyInputGuardrail;
 import com.ai.healthaicode.ai.tools.*;
 import com.ai.healthaicode.exception.BusinessException;
 import com.ai.healthaicode.exception.ErrorCode;
@@ -122,6 +123,7 @@ public class AiCodeGeneratorServiceFactory {
                         .streamingChatModel(reasoningStreamingChatModel)
                         .chatMemoryProvider(memoryId -> chatMemory)
                         .tools(toolManager.getAllTools())
+                        .inputGuardrails(new PromptSafetyInputGuardrail())
                         .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                                 toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                         ))
