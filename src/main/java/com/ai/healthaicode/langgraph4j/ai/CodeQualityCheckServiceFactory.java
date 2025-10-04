@@ -17,6 +17,7 @@ public class CodeQualityCheckServiceFactory {
     @Resource(name = "openAiChatModel")
     private ChatModel chatModel;
 
+
     /**
      * 创建代码质量检查 AI 服务
      */

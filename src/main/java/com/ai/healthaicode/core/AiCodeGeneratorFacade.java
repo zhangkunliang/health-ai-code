@@ -70,7 +70,7 @@ public class AiCodeGeneratorFacade {
     /**
      * 统一入口：根据类型生成并保存代码（流式）
      *
-     * @param userMessage     用户提示词
+     * @param userMessage     用户提示词     ·没
      * @param codeGenTypeEnum 生成类型
      * @param appId           应用 ID
      * @return 保存的目录
