@@ -1,6 +1,7 @@
 package com.ai.healthaicode.ai;
 
 import com.ai.healthaicode.ai.guardrail.PromptSafetyInputGuardrail;
+import com.ai.healthaicode.ai.guardrail.RetryOutputGuardrail;
 import com.ai.healthaicode.ai.tools.*;
 import com.ai.healthaicode.exception.BusinessException;
 import com.ai.healthaicode.exception.ErrorCode;
@@ -11,6 +12,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import dev.langchain4j.community.store.memory.chat.redis.RedisChatMemoryStore;
 import dev.langchain4j.data.message.ToolExecutionResultMessage;
+import dev.langchain4j.guardrail.config.OutputGuardrailsConfig;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
@@ -44,6 +46,7 @@ public class AiCodeGeneratorServiceFactory {
 
     @Resource
     private ToolManager toolManager;
+
     /**
      * 默认提供一个 Bean
      */
@@ -119,11 +122,16 @@ public class AiCodeGeneratorServiceFactory {
             case VUE_PROJECT -> {
                 // 使用多例模式的 StreamingChatModel 解决并发问题
                 StreamingChatModel reasoningStreamingChatModel = SpringContextUtil.getBean("reasoningStreamingChatModelPrototype", StreamingChatModel.class);
+                OutputGuardrailsConfig outputGuardrailsConfig = OutputGuardrailsConfig.builder()
+                        .maxRetries(3)
+                        .build();
                 yield AiServices.builder(AiCodeGeneratorService.class)
                         .streamingChatModel(reasoningStreamingChatModel)
                         .chatMemoryProvider(memoryId -> chatMemory)
                         .tools(toolManager.getAllTools())
                         .inputGuardrails(new PromptSafetyInputGuardrail())
+                        .outputGuardrails(new RetryOutputGuardrail())
+                        .outputGuardrailsConfig(outputGuardrailsConfig)
                         .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                                 toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                         ))
